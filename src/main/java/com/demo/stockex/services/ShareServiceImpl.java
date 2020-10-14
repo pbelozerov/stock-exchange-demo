@@ -26,6 +26,7 @@ public class ShareServiceImpl implements ShareService {
         return shareRepository.findById(id).orElse(null);
     }
 
+
     @Override
     public void deleteById(Integer id) {
         shareRepository.deleteById(id);
