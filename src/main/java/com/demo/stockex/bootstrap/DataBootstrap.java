@@ -1,58 +1,35 @@
 package com.demo.stockex.bootstrap;
 
-import com.demo.stockex.domain.Share;
-import com.demo.stockex.domain.User;
-import com.demo.stockex.repositories.ShareRepository;
-import com.demo.stockex.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @Component
 @RequiredArgsConstructor
 public class DataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
-    private final UserRepository userRepository;
-    private final ShareRepository shareRepository;
-
-
+    //Can be used to add initial data to DB for testing purpose
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        userRepository.saveAll(getUsers());
     }
 
-    private List<User> getUsers() {
-        List<User> users = new ArrayList<>();
-        Share share1 = new Share();
-        Share share2 = new Share();
-        User user1 = new User();
-        User user2 = new User();
+    //Test token from iexcloud.io is used
+    public static String getToken() throws Exception {
+        String token;
+        try {
+            token = ResourceBundle.getBundle("private", Locale.ENGLISH).getString("token");
+        } catch (Exception e) {
+            throw new Exception("Can't load token");
+        }
 
-        share1.setName("Apple");
-        share1.setSymbol("APL");
-        share1.setAmount(2);
-        share1.setPrice(1.10);
-        share1.setUser(user1);
+        if (token.isEmpty()) {
+            throw new Exception("Can't load token");
+        }
 
-        share2.setName("Google");
-        share2.setSymbol("GGL");
-        share2.setAmount(5);
-        share2.setPrice(2.30);
-        share2.setUser(user2);
-
-        user1.setName("Alice");
-        user1.getShares().add(share1);
-
-        user2.setName("Bob");
-        user2.getShares().add(share2);
-
-        users.add(user1);
-        users.add(user2);
-
-        return users;
+        return token;
     }
 }

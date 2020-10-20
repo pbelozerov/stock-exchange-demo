@@ -1,17 +1,21 @@
 package com.demo.stockex.services;
 
 import com.demo.stockex.domain.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Set;
+import java.util.List;
 
 public interface UserService {
 
-    Set<User> getUsers();
+    List<User> getUsers();
 
     User findById(Integer id);
 
     void deleteById(Integer id);
 
-    User save(User user);
+    boolean save(User user);
+
+    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
 }
